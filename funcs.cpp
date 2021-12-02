@@ -33,6 +33,9 @@ void parseFile(std::istream & input, std::ostream & output){
             iBetter = i;
         }
     }
+    if(usefulAcs.empty()){
+        usefulAcs.push_back(acs.back());
+    }
 
     auto ac = usefulAcs.begin();
     unsigned int price = 0;

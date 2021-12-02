@@ -52,6 +52,16 @@ TEST_CASE("test 2", ""){
     );
 }
 
+TEST_CASE("file 11", ""){
+    std::ifstream input( "../011", std::ofstream::in);
+    std::stringstream output;
+    parseFile(input,output);
+    INFO(output.str());
+    REQUIRE(output.str() ==
+            "1000000"
+    );
+}
+
 TEST_CASE("higher power costs less", ""){
     std::stringstream input(
             "3\n"
@@ -104,5 +114,41 @@ TEST_CASE("chain of higher power costs less, cheaper at the end", ""){
     INFO(output.str());
     REQUIRE(output.str() ==
             "13"
+    );
+}
+
+TEST_CASE("chain of higher power costs less, no chain at start", ""){
+    std::stringstream input(
+            "3\n"
+            "1 2 3\n"
+            "4\n"
+            "3 5\n"
+            "2 6\n"
+            "2 5\n"
+            "2 4\n"
+    );
+    std::stringstream output;
+    parseFile(input,output);
+    INFO(output.str());
+    REQUIRE(output.str() ==
+            "13"
+    );
+}
+
+TEST_CASE("all the same ac-s", ""){
+    std::stringstream input(
+            "3\n"
+            "1 2 3\n"
+            "4\n"
+            "3 5\n"
+            "3 5\n"
+            "3 5\n"
+            "3 5\n"
+    );
+    std::stringstream output;
+    parseFile(input,output);
+    INFO(output.str());
+    REQUIRE(output.str() ==
+            "15"
     );
 }
