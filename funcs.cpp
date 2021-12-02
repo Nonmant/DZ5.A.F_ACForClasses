@@ -22,20 +22,27 @@ void parseFile(std::istream & input, std::ostream & output){
     std::sort(classes.rbegin(), classes.rend());
     std::sort(acs.rbegin(), acs.rend());
 
-    unsigned int iAc = 0;
+    std::list<std::pair<int,int>> usefulAcs;
+    int iBetter = 0;
+    for(int i = 0; i < acs.size(); ++i){
+        if(i+1 < acs.size() && acs[i+1].first == acs[i].first){
+            continue;
+        }
+        if(acs[i].second < acs[iBetter].second || i == iBetter){
+            usefulAcs.push_back(acs[i]);
+            iBetter = i;
+        }
+    }
+
+    auto ac = usefulAcs.begin();
     unsigned int price = 0;
     for(auto room : classes){
-        unsigned int j = iAc, minPrice = acs[iAc].second, minJ = iAc;
-        ++j;
-        while (j<acs.size() && acs[j].first >= room){
-            if(acs[j].second < minPrice){
-                minPrice = acs[j].second;
-                minJ = j;
-            }
-            ++j;
+        auto next = std::next(ac,1);
+        while (next!=usefulAcs.end() && next->first>=room){
+            ac = next;
+            next = std::next(ac,1);
         }
-        iAc = minJ;
-        price += minPrice;
+        price+=ac->second;
     }
 
     output << price;

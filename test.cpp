@@ -69,3 +69,40 @@ TEST_CASE("higher power costs less", ""){
             "14"
     );
 }
+
+TEST_CASE("chain of higher power costs less", ""){
+    std::stringstream input(
+            "3\n"
+            "1 2 3\n"
+            "4\n"
+            "3 10\n"
+            "3 5\n"
+            "2 6\n"
+            "2 5\n"
+    );
+    std::stringstream output;
+    parseFile(input,output);
+    INFO(output.str());
+    REQUIRE(output.str() ==
+            "15"
+    );
+}
+
+TEST_CASE("chain of higher power costs less, cheaper at the end", ""){
+    std::stringstream input(
+            "3\n"
+            "1 2 3\n"
+            "5\n"
+            "3 10\n"
+            "3 5\n"
+            "2 6\n"
+            "2 5\n"
+            "2 4\n"
+    );
+    std::stringstream output;
+    parseFile(input,output);
+    INFO(output.str());
+    REQUIRE(output.str() ==
+            "13"
+    );
+}
